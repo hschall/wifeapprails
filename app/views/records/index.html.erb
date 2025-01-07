@@ -1,0 +1,92 @@
+<div class="background-wrapper">
+  <style>
+    .background-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Places the background behind the content */
+      background: linear-gradient(135deg, #f3f6f4, #cfe2f3);
+      background-attachment: fixed; /* Makes the background stay in place during scrolling */
+    }
+  </style>
+</div>
+
+
+
+  <!-- Toggle Between Views -->
+  <div class="row mb-3">
+    <div class="col-md-6 mx-auto text-center">
+      <% if params[:master] %>
+        <%= link_to "View My Records", records_path, class: "btn btn-secondary" %>
+      <% else %>
+        <%= link_to "View All Users' Records", records_path(master: true), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+
+<%= render "records/filter" %>
+
+  <!-- Total Amount Section -->
+  <div class="row mb-3">
+  <div class="col-md-6 mx-auto text-center">
+    <div class="alert alert-info">
+      <strong>
+        <% if params[:master] %>
+          Total Amount for All Users:
+        <% else %>
+          Total Amount for Selected Month (Your Records Only):
+        <% end %>
+      </strong>
+      <%= number_to_currency(@total_amount) %>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Records Table -->
+  <div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover table-bordered align-middle text-center table-light">
+      <thead class="table-dark">
+        <tr>
+          <th>Fecha</th>
+          <th>Concepto</th>
+          <th>Importe</th>
+          <th>Comentario</th>
+          <% if params[:master] %>
+            <th>Usuario</th>
+          <% end %>
+          <th colspan="3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @records.each do |record| %>
+          <tr>
+            <td><%= record.fecha %></td>
+            <td><%= record.concepto %></td>
+            <td><%= record.importe %></td>
+            <td><%= record.comentario %></td>
+            <% if params[:master] %>
+              <td><%= record.user.email %></td> <!-- Assuming the user model has an email field -->
+            <% end %>
+            <td><%= link_to "Show", record, class: "btn btn-outline-primary btn-sm" %></td>
+            <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
+            <td><%= button_to "Destroy", record, data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger btn-sm" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <!-- Add New Record Button -->
+  <div class="row mt-4">
+    <div class="col-md-12 text-center">
+      <%= link_to "New Record", new_record_path, class: "btn btn-success" %>
+    </div>
+  </div>
+</div>

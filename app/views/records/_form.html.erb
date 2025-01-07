@@ -1,0 +1,39 @@
+<%= form_with(model: record) do |form| %>
+  <% if record.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(record.errors.count, "error") %> prohibited this record from being saved:</h2>
+
+      <ul>
+        <% record.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :fecha, style: "display: block" %>
+    <%= form.date_field :fecha, class:"form-control", placeholder:"Fecha" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.text_field :concepto, class:"form-control", placeholder:"Concepto" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.text_field :importe, class:"form-control", placeholder:"Importe" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.text_field :comentario, class:"form-control", placeholder:"Comentario" %>
+  </div>
+
+  <div class="mb-3">
+    <% form.label :user_id, id: :record_user_id, style: "display: block" %>
+    <%= form.number_field :user_id, class:"form-control", value:current_user.id, type: :hidden %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha: 2025-01-02
+  concepto: MyString
+  importe: 9.99
+  comentario: MyString
+
+two:
+  fecha: 2025-01-02
+  concepto: MyString
+  importe: 9.99
+  comentario: MyString
