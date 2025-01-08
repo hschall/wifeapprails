@@ -1,4 +1,12 @@
-
+  <!-- Toggle Between Views -->
+    <div class="row mb-3">
+    <div class="col-md-6 mx-auto text-center">
+      <% if params[:master] %>
+        <%= link_to "View My Records", records_path, class: "btn btn-secondary" %>
+      <% else %>
+        <%= link_to "View All Users' Records", records_path(master: true), class: "btn btn-primary" %>
+      <% end %>
+    </div>
 
 <div class="container mt-5">
   <div class="row justify-content-center">
@@ -42,25 +50,26 @@
           <% if params[:master] %>
             <th>Usuario</th>
           <% end %>
-          <th colspan="3">Actions</th>
+          <th colspan="2">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <% @records.each do |record| %>
-          <tr>
-            <td><%= record.fecha %></td>
-            <td><%= record.concepto %></td>
-            <td><%= record.importe %></td>
-            <td><%= record.comentario %></td>
-            <% if params[:master] %>
-              <td><%= record.user.email %></td> <!-- Assuming the user model has an email field -->
-            <% end %>
-</td>
-            <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
-            <td><%= button_to "Destroy", record, method: :delete, class: "btn btn-outline-danger btn-sm", onclick: "return confirm('Are you sure?');" %></td>
-          </tr>
-        <% end %>
-      </tbody>
+        <tbody>
+  <% @records.each do |record| %>
+    <tr>
+      <td><%= record.fecha %></td>
+      <td><%= record.concepto %></td>
+      <td><%= record.importe %></td>
+      <td><%= record.comentario %></td>
+      <% if params[:master] %>
+        <td><%= record.user&.email || "No User" %></td>
+      <% end %>
+      <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
+      <td><%= button_to "Destroy", record, method: :delete, class: "btn btn-outline-danger btn-sm", onclick: "return confirm('Are you sure?');" %></td>
+    </tr>
+  <% end %>
+</tbody>
+
     </table>
   </div>
 </div>
