@@ -4,6 +4,8 @@ ruby "3.3.3"
 
 gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 
+gem "railties"
+
 gem "sprockets-rails"
 
 gem "puma", ">= 5.0"
@@ -37,7 +39,7 @@ end
 group :production do
 
   gem 'pg', '~> 1.5', '>= 1.5.9'
-  
+
 end
 
 group :test do

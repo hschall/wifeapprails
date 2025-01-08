@@ -1,0 +1,18 @@
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/bindex-0.8.1/ext/skiptrace
+/Users/hschall/.rbenv/versions/3.3.3/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-yeray3 sitelibdir\=./.gem.20250108-8290-yeray3 clean
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-yeray3 sitelibdir\=./.gem.20250108-8290-yeray3
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-yeray3 sitelibdir\=./.gem.20250108-8290-yeray3 install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20250108-8290-yeray3/skiptrace/internal
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-yeray3 sitelibdir\=./.gem.20250108-8290-yeray3 clean

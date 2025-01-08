@@ -1,0 +1,18 @@
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/racc-1.8.1/ext/racc/cparse
+/Users/hschall/.rbenv/versions/3.3.3/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-sf29em sitelibdir\=./.gem.20250108-8290-sf29em clean
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-sf29em sitelibdir\=./.gem.20250108-8290-sf29em
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-sf29em sitelibdir\=./.gem.20250108-8290-sf29em install
+/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20250108-8290-sf29em/racc
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-sf29em sitelibdir\=./.gem.20250108-8290-sf29em clean

@@ -1,5 +1,4 @@
 <% if user_signed_in? %>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <!-- Brand -->
@@ -21,7 +20,7 @@
           <!-- User Dropdown -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+              User
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#"><%= link_to "Edit User", edit_user_registration_path, class: "dropdown-item btn btn-link text-dark p-0 ms-3"%></a></li>

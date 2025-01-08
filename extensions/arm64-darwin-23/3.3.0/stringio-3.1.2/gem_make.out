@@ -1,0 +1,18 @@
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/stringio-3.1.2/ext/stringio
+/Users/hschall/.rbenv/versions/3.3.3/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-53p6dt sitelibdir\=./.gem.20250108-8290-53p6dt clean
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-53p6dt sitelibdir\=./.gem.20250108-8290-53p6dt
+compiling stringio.c
+linking shared-object stringio.bundle
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-53p6dt sitelibdir\=./.gem.20250108-8290-53p6dt install
+/usr/bin/install -c -m 0755 stringio.bundle ./.gem.20250108-8290-53p6dt
+
+current directory: /Users/hschall/ror_projects/wife_project/princess_wife/gems/stringio-3.1.2/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250108-8290-53p6dt sitelibdir\=./.gem.20250108-8290-53p6dt clean
