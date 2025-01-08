@@ -1,6 +1,7 @@
+<%= render "records/background" %>
+
 <style>
   body {
-    background: linear-gradient(to bottom right, #6a11cb, #2575fc);
     min-height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
@@ -13,33 +14,44 @@
   }
 </style>
 
-<div class="container d-flex justify-content-center align-items-center">
-  <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
-    <h1 class="text-center mb-4">Log in</h1>
+<div class="container">
+  <div class="card shadow p-4 rounded" style=" width: 100%; max-width: 400px;">
+    <!-- Header -->
+    <h2 class="text-center mb-4">Log In</h2>
+
+    <!-- Error Messages -->
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <!-- Form -->
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <!-- Email Field -->
       <div class="mb-3">
-        <%= f.label :email, class: "form-label" %>
+        <%= f.label :email, "Email Address", class: "form-label" %>
         <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email", placeholder: "Enter your email" %>
       </div>
 
+      <!-- Password Field -->
       <div class="mb-3">
-        <%= f.label :password, class: "form-label" %>
+        <%= f.label :password, "Password", class: "form-label" %>
         <%= f.password_field :password, class: "form-control", autocomplete: "current-password", placeholder: "Enter your password" %>
       </div>
 
+      <!-- Remember Me Field -->
       <% if devise_mapping.rememberable? %>
         <div class="form-check mb-3">
           <%= f.check_box :remember_me, class: "form-check-input" %>
-          <%= f.label :remember_me, class: "form-check-label" %>
+          <%= f.label :remember_me, "Remember Me", class: "form-check-label" %>
         </div>
       <% end %>
 
+      <!-- Submit Button -->
       <div class="d-grid">
-        <%= f.submit "Log in", class: "btn btn-primary" %>
+        <%= f.submit "Log In", class: "btn btn-primary" %>
       </div>
     <% end %>
 
-    <div class="text-center mt-3">
+    <!-- Links -->
+    <div class="text-center mt-4">
       <%= render "devise/shared/links" %>
     </div>
   </div>

@@ -154,6 +154,7 @@ GEM
     nokogiri (1.18.0-arm64-darwin)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pg (1.5.9)
     psych (5.2.2)
       date
       stringio
@@ -258,6 +259,7 @@ DEPENDENCIES
   devise (~> 4.9, >= 4.9.4)
   importmap-rails
   jbuilder
+  pg (~> 1.5, >= 1.5.9)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
   selenium-webdriver

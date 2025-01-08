@@ -1,50 +1,33 @@
-<div class="background-wrapper">
-  <style>
-    .background-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* Places the background behind the content */
-      background: linear-gradient(135deg, #f3f6f4, #cfe2f3);
-      background-attachment: fixed; /* Makes the background stay in place during scrolling */
-    }
-  </style>
-</div>
 
 
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="bg-light p-4 rounded shadow text-center">
+        <!-- Filter Section -->
+        <%= render "records/filter" %>
 
-  <!-- Toggle Between Views -->
-  <div class="row mb-3">
-    <div class="col-md-6 mx-auto text-center">
-      <% if params[:master] %>
-        <%= link_to "View My Records", records_path, class: "btn btn-secondary" %>
-      <% else %>
-        <%= link_to "View All Users' Records", records_path(master: true), class: "btn btn-primary" %>
-      <% end %>
-    </div>
-  </div>
-
-
-<%= render "records/filter" %>
-
-  <!-- Total Amount Section -->
-  <div class="row mb-3">
-  <div class="col-md-6 mx-auto text-center">
-    <div class="alert alert-info">
-      <strong>
-        <% if params[:master] %>
-          Total Amount for All Users:
-        <% else %>
-          Total Amount for Selected Month (Your Records Only):
-        <% end %>
-      </strong>
-      <%= number_to_currency(@total_amount) %>
+        <!-- Total Amount Section -->
+        <div class="alert alert-info mt-4">
+          <h5 class="mb-3">
+            <strong>
+              <% if params[:master] %>
+                Total Amount for All Users:
+              <% else %>
+                Total Amount for Selected Month (Your Records Only):
+              <% end %>
+            </strong>
+          </h5>
+          <h4 class="fw-bold"><%= number_to_currency(@total_amount) %></h4>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+</br>
+</br>
+</br>
 
   <!-- Records Table -->
   <div class="row">
@@ -72,9 +55,9 @@
             <% if params[:master] %>
               <td><%= record.user.email %></td> <!-- Assuming the user model has an email field -->
             <% end %>
-            <td><%= link_to "Show", record, class: "btn btn-outline-primary btn-sm" %></td>
+</td>
             <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
-            <td><%= button_to "Destroy", record, data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger btn-sm" %></td>
+            <td><%= button_to "Destroy", record, method: :delete, class: "btn btn-outline-danger btn-sm", onclick: "return confirm('Are you sure?');" %></td>
           </tr>
         <% end %>
       </tbody>

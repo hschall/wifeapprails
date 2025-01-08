@@ -1,0 +1,55 @@
+<style>
+  @keyframes floatParticles {
+    from {
+      transform: translateY(100vh) scale(0.5);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10vh) scale(1.2);
+      opacity: 0;
+    }
+  }
+
+  .animated-background {
+    background: linear-gradient(to bottom, #1a1a2e, #16213e); /* Dark blue gradient */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 204, 255, 0.8); /* Light cyan */
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0, 204, 255, 0.6); /* Glow effect */
+    animation: floatParticles 10s linear infinite;
+  }
+
+  .particle.small {
+    width: 6px;
+    height: 6px;
+    animation-duration: 8s;
+  }
+
+  .particle.large {
+    width: 14px;
+    height: 14px;
+    animation-duration: 12s;
+  }
+</style>
+
+<div class="animated-background">
+  <% 30.times do %>
+    <div class="particle <%= ['small', 'large'].sample %>" style="
+      bottom: 0;
+      left: <%= rand(0..100) %>vw;
+      animation-delay: <%= rand(0..5) %>s;
+    "></div>
+  <% end %>
+</div>

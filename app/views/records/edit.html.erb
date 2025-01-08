@@ -1,10 +1,12 @@
+
+<div class="text-center">
 <h1>Editing record</h1>
+</div>
 
 <%= render "form", record: @record %>
 
 <br>
 
-<div>
-  <%= link_to "Show this record", @record %> |
-  <%= link_to "Back to records", records_path %>
+<div class="text-center">
+  <%= link_to "Cancel", records_path, class: "btn btn-danger" %>
 </div>

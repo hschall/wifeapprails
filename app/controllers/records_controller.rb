@@ -42,32 +42,33 @@ class RecordsController < ApplicationController
 
   # POST /records or /records.json
   def create
-    #@record = Record.new(record_params)
-    @record = current_user.records.build(record_params) 
+  @record = current_user.records.build(record_params)
 
-    respond_to do |format|
-      if @record.save
-        format.html { redirect_to @record, notice: "Record was successfully created." }
-        format.json { render :show, status: :created, location: @record }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @record.errors, status: :unprocessable_entity }
-      end
+  respond_to do |format|
+    if @record.save
+      format.html { redirect_to records_path, notice: "Record was successfully created." }
+      format.json { render :index, status: :created, location: records_path }
+    else
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @record.errors, status: :unprocessable_entity }
     end
   end
+end
+
 
   # PATCH/PUT /records/1 or /records/1.json
   def update
-    respond_to do |format|
-      if @record.update(record_params)
-        format.html { redirect_to @record, notice: "Record was successfully updated." }
-        format.json { render :show, status: :ok, location: @record }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @record.errors, status: :unprocessable_entity }
-      end
+  respond_to do |format|
+    if @record.update(record_params)
+      format.html { redirect_to records_path, notice: "Record was successfully updated." }
+      format.json { render :index, status: :ok, location: records_path }
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @record.errors, status: :unprocessable_entity }
     end
   end
+end
+
 
   # DELETE /records/1 or /records/1.json
   def destroy
