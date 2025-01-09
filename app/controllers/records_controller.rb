@@ -6,25 +6,27 @@ class RecordsController < ApplicationController
 
 
   # GET /records or /records.json
-  def index
-    if current_user && params[:master] # Master view for logged-in users
+def index
+  if current_user
+    if params[:master] # Master view for logged-in users
       @records = Record.all
-      @total_amount = @records.sum(:importe)
     else # Individual view for the logged-in user
-      if current_user
-        if params[:month]
-          selected_date = Date.parse(params[:month] + "-01") rescue Date.today
-          @records = Record.for_month(selected_date).where(user: current_user)
-          @total_amount = @records.sum(:importe)
-        else
-          @records = Record.where(user: current_user)
-          @total_amount = @records.sum(:importe)
-        end
-      else
-        redirect_to new_user_session_path, alert: "You must be logged in to view records."
-      end
+      @records = Record.where(user: current_user)
     end
+
+    # Apply the filter if a month is selected
+    if params[:month].present?
+      selected_date = Date.parse(params[:month] + "-01") rescue Date.today
+      @records = @records.where(fecha: selected_date.beginning_of_month..selected_date.end_of_month)
+    end
+
+    # Calculate the total amount
+    @total_amount = @records.sum(:importe)
+  else
+    redirect_to new_user_session_path, alert: "You must be logged in to view records."
   end
+end
+
 
   # GET /records/1 or /records/1.json
   def show
