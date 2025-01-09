@@ -6,6 +6,10 @@ gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 
 gem "railties"
 
+gem 'sassc'
+
+gem 'sassc-rails'
+
 gem "sprockets-rails"
 
 gem "puma", ">= 5.0"

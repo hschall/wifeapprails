@@ -1,15 +1,29 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+.navbar {
+  padding: 0.5rem 1rem; /* Adjust as needed */
+}
+
+.navbar-brand {
+  font-size: 1.25rem; /* Slightly larger brand text */
+}
+
+.dropdown-item.text-danger {
+  color: #dc3545; /* Bootstrap danger color */
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: #f8d7da; /* Light red background on hover */
+}
+
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
+}
+
+.table {
+  word-wrap: break-word; /* Prevent content from breaking the layout */
+}
+
+th, td {
+  white-space: nowrap; /* Prevent content from wrapping inside table cells */
+}
