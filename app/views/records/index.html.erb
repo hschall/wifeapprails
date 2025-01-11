@@ -1,13 +1,19 @@
 <!-- Toggle Between Views -->
-<div class="row mb-3">
-  <div class="col-sm-12 col-md-6 mx-auto text-center">
-    <% if params[:master] %>
+<% if current_user.admin? && params[:master] %>
+  <div class="row mb-3">
+    <div class="col-sm-12 col-md-6 mx-auto text-center">
       <%= link_to "View My Records", records_path, class: "btn btn-secondary mb-2" %>
-    <% else %>
-      <%= link_to "View All Users' Records", records_path(master: true), class: "btn btn-primary mb-2" %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% elsif current_user.admin? %>
+  <div class="row mb-3">
+    <div class="col-sm-12 col-md-6 mx-auto text-center">
+      <%= link_to "View All Users' Records", records_path(master: true), class: "btn btn-primary mb-2" %>
+    </div>
+  </div>
+<% end %>
+
+
 
 <!-- Filter Section -->
 <div class="container mt-4">

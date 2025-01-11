@@ -1,31 +1,39 @@
 class RecordsController < ApplicationController
-  before_action :set_record, only: %i[ show edit update destroy ]
+  before_action :set_record, only: %i[show edit update destroy]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, only: [:index]
 
-
   # GET /records or /records.json
-def index
-  if current_user
-    if params[:master] # Master view for logged-in users
-      @records = Record.all
-    else # Individual view for the logged-in user
-      @records = Record.where(user: current_user)
-    end
+  def index
+    if current_user
+      if params[:master]
+        # Restrict "All Users' Records" to admins only
+        if current_user.admin?
+          @records = Record.all
+        else
+          redirect_to records_path, alert: "You are not authorized to view all users' records."
+          return
+        end
+      else
+        # Individual view for the logged-in user
+        @records = Record.where(user: current_user)
+      end
 
-    # Apply the filter if a month is selected
-    if params[:month].present?
-      selected_date = Date.parse(params[:month] + "-01") rescue Date.today
-      @records = @records.where(fecha: selected_date.beginning_of_month..selected_date.end_of_month)
-    end
+      # Apply the filter if a month is selected
+      if params[:month].present?
+        selected_date = Date.parse(params[:month] + "-01") rescue Date.today
+        @records = @records.where(fecha: selected_date.beginning_of_month..selected_date.end_of_month)
+      end
 
-    # Calculate the total amount
-    @total_amount = @records.sum(:importe)
-  else
-    redirect_to new_user_session_path, alert: "You must be logged in to view records."
-  end
+      # Calculate the total amount
+      @total_amount = @records.sum(:importe)
+    else
+      redirect_to new_user_session_path, alert: "You must be logged in to view records."
+    end
+  
 end
+
 
 
   # GET /records/1 or /records/1.json

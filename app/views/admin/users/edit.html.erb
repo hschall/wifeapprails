@@ -1,0 +1,8 @@
+<h1>Edit User Role</h1>
+<%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
+  <div class="mb-3">
+    <%= f.label :role %>
+    <%= f.select :role, User::ROLES, {}, class: "form-select" %>
+  </div>
+  <%= f.submit "Update", class: "btn btn-success" %>
+<% end %>

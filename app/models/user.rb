@@ -4,5 +4,22 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-         has_many :records
+  # Associations
+  has_many :records
+
+  # Role definitions
+  ROLES = %w[user admin]
+
+  # Validations
+  validates :role, inclusion: { in: ROLES }
+
+  # Methods
+  def admin?
+    role == "admin"
+  end
+
+  def user?
+    role == "user"
+  end
 end
+

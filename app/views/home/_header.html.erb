@@ -13,7 +13,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left-Aligned Links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- Add additional links here if needed -->
+          <% if current_user.admin? %>
+            <!-- Admin Management Link -->
+            <li class="nav-item">
+              <%= link_to "User Management", admin_users_path, class: "nav-link" %>
+            </li>
+          <% end %>
         </ul>
 
         <!-- Right-Aligned Links -->

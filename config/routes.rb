@@ -1,15 +1,23 @@
 Rails.application.routes.draw do
+  # Devise routes for user authentication
   devise_for :users
+
+  # Resourceful routes for records
   resources :records
+
+  # Admin namespace for user management
+  namespace :admin do
+    get 'users/index'
+    get 'users/edit'
+    get 'users/update'
+    resources :users, only: [:index, :edit, :update] # Admin user management routes
+  end
+
+  # Home and root routes
   get 'home/master'
-  #root 'home#index'
   root 'records#index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
+
