@@ -13,6 +13,9 @@ class User < ApplicationRecord
   # Validations
   validates :role, inclusion: { in: ROLES }
 
+  # Callbacks
+  before_create :set_default_role
+
   # Methods
   def admin?
     role == "admin"
@@ -20,6 +23,12 @@ class User < ApplicationRecord
 
   def user?
     role == "user"
+  end
+
+  private
+
+  def set_default_role
+    self.role ||= "user"
   end
 end
 
