@@ -1,5 +1,3 @@
-
-
 .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
@@ -13,51 +11,50 @@ th, td {
   white-space: nowrap; /* Prevent content from wrapping inside table cells */
 }
 
- html, body {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   background-color: #f8f9fa; /* Apply background color to the entire page */
 }
 
+.sidebar {
+  height: calc(100vh - 56px); /* Full height minus navbar height */
+  width: 150px; /* Thinner sidebar */
+  background-color: #343a40;
+  color: #fff;
+  position: fixed;
+  top: 56px; /* Position it below the navbar */
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1020; /* Ensure it stays on top of the footer */
+  transition: width 0.3s ease; /* Smooth transition for responsiveness */
+}
 
-  .sidebar {
-    height: calc(100vh - 56px); /* Full height minus navbar height */
-    width: 150px; /* Thinner sidebar */
-    background-color: #343a40;
-    color: #fff;
-    position: fixed;
-    top: 56px; /* Position it below the navbar */
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 1020; /* Ensure it stays on top of the footer */
-  }
+.sidebar a {
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 10px 10px;
+  font-size: 16px; /* Increase font size (default is typically ~14px) */
+  display: flex;
+  align-items: center;
+}
 
-  .sidebar a {
-    color: #adb5bd;
-    text-decoration: none;
-    padding: 10px 10px;
-    font-size: 16px; /* Increase font size (default is typically ~14px) */
-    display: flex;
-    align-items: center;
-  }
+.sidebar a.active {
+  background-color: #007bff;
+  color: #fff;
+}
 
-  .sidebar a.active {
-    background-color: #007bff;
-    color: #fff;
-  }
+.sidebar a:hover {
+  background-color: #495057;
+  color: #fff;
+}
 
-  .sidebar a:hover {
-    background-color: #495057;
-    color: #fff;
-  }
-
-  .sidebar i {
-    margin-right: 8px; /* Icon spacing */
-    font-size: 18px; /* Increase icon size to match larger font */
-  }
-
+.sidebar i {
+  margin-right: 8px; /* Icon spacing */
+  font-size: 18px; /* Increase icon size to match larger font */
+}
 
 .main-content {
   margin-left: 150px; /* Align content to the right of the sidebar */
@@ -69,9 +66,8 @@ th, td {
   overflow-y: auto; /* Allow scrolling if content exceeds available height */
 }
 
-
 .footer {
-  height: 35px;
+  height: 20px;
   background-color: #4f555b;
   color: #fff;
   position: fixed;
@@ -82,4 +78,18 @@ th, td {
   align-items: center;
   justify-content: right;
   font-size: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 100%; /* Sidebar takes full width on smaller screens */
+    position: static; /* Sidebar flows with content */
+    height: auto; /* Adjust height dynamically */
+    z-index: 1020; /* Ensure it stays above content */
+  }
+
+  .main-content {
+    margin-left: 0; /* Remove sidebar margin for smaller screens */
+  }
 }
