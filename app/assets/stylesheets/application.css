@@ -1,26 +1,7 @@
-.table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
-}
-
-.table {
-  word-wrap: break-word; /* Prevent content from breaking the layout */
-}
-
-th, td {
-  white-space: nowrap; /* Prevent content from wrapping inside table cells */
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa; /* Apply background color to the entire page */
-}
-
+/* Sidebar */
 .sidebar {
   height: calc(100vh - 56px); /* Full height minus navbar height */
-  width: 150px; /* Thinner sidebar */
+  width: 150px; /* Sidebar width */
   background-color: #343a40;
   color: #fff;
   position: fixed;
@@ -29,9 +10,12 @@ html, body {
   display: flex;
   flex-direction: column;
   z-index: 1020; /* Ensure it stays on top of the footer */
-  transition: width 0.3s ease; /* Smooth transition for responsiveness */
+  transition: transform 0.3s ease; /* Smooth transition for responsiveness */
+  transform: translateX(0); /* Visible by default on desktop */
+  overflow-y: auto; /* Enable scrolling for overflowing content */
 }
 
+/* Sidebar Links */
 .sidebar a {
   color: #adb5bd;
   text-decoration: none;
@@ -56,6 +40,44 @@ html, body {
   font-size: 18px; /* Increase icon size to match larger font */
 }
 
+/* Divider Styles */
+.sidebar hr {
+  border-color: #495057; /* Divider color */
+  margin: 10px 0; /* Add spacing above and below the line */
+  border-width: 1px;
+}
+
+
+/* User Dropdown */
+.user-dropdown {
+  margin-top: auto; /* Push user dropdown to the bottom */
+  padding: 10px 0; /* Add spacing around the dropdown */
+  border-top: 1px solid #495057; /* Add a divider above the dropdown */
+}
+
+.user-dropdown .nav-item {
+  list-style: none; /* Remove list-style bullet points */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.user-dropdown .dropdown-menu {
+  background-color: #343a40; /* Match sidebar background */
+  border: 1px solid #495057; /* Border color */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove extra padding */
+}
+
+.user-dropdown .dropdown-item {
+  color: #adb5bd;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #495057; /* Hover color */
+  color: #fff;
+}
+
+/* Main Content */
 .main-content {
   margin-left: 150px; /* Align content to the right of the sidebar */
   padding: 20px;
@@ -66,6 +88,7 @@ html, body {
   overflow-y: auto; /* Allow scrolling if content exceeds available height */
 }
 
+/* Footer */
 .footer {
   height: 20px;
   background-color: #4f555b;
@@ -80,16 +103,25 @@ html, body {
   font-size: 15px;
 }
 
-/* Responsive Adjustments */
+/* Mobile View - Sidebar Hidden by Default */
 @media (max-width: 992px) {
   .sidebar {
+    transform: translateX(-100%); /* Sidebar hidden by default on mobile */
     width: 100%; /* Sidebar takes full width on smaller screens */
-    position: static; /* Sidebar flows with content */
-    height: auto; /* Adjust height dynamically */
-    z-index: 1020; /* Ensure it stays above content */
+  }
+
+  .sidebar.show {
+    transform: translateX(0); /* Sidebar visible when toggled */
   }
 
   .main-content {
     margin-left: 0; /* Remove sidebar margin for smaller screens */
+  }
+}
+
+/* Desktop View - Sidebar Always Visible */
+@media (min-width: 992px) {
+  .sidebar {
+    transform: translateX(0); /* Always visible on larger screens */
   }
 }
