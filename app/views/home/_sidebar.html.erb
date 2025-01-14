@@ -1,0 +1,21 @@
+<% if user_signed_in? %>
+<div class="sidebar">
+  <!-- Links Section -->
+  <div>
+    <%= link_to root_path, class: "d-flex align-items-center text-white" do %>
+      <i class="bi bi-house-door me-2"></i> Home
+    <% end %>
+
+    <%= link_to home_dashboard_path, class: "d-flex align-items-center text-white" do %>
+      <i class="bi bi-speedometer2 me-2"></i> Dashboard
+    <% end %>
+
+    <% if current_user.admin? %>
+    <%= link_to admin_users_path, class: "d-flex align-items-center text-white" do %>
+      <i class="bi bi-speedometer2 me-2"></i> User Management
+    <% end %>
+    <% end %>
+
+  </div>
+</div>
+<% end %>

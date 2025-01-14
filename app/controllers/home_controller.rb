@@ -4,4 +4,8 @@ class HomeController < ApplicationController
 
   def master
   end
+
+  def dashboard
+  end
+    
 end

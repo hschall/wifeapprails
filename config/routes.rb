@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   # Devise routes for user authentication
-  devise_for :users
+  devise_for :users, controllers: {
+  sessions: 'users/sessions'
+}
+
 
   # Resourceful routes for records
   resources :records
@@ -15,6 +18,7 @@ Rails.application.routes.draw do
 
   # Home and root routes
   get 'home/master'
+  get 'home/dashboard'
   root 'records#index'
 
   # Health check route

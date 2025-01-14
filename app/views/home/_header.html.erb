@@ -1,36 +1,26 @@
 <% if user_signed_in? %>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <!-- Brand -->
-      <%= link_to "PrincessWife App", root_path, class: "navbar-brand" %>
+<nav class="navbar navbar-expand-lg fixed-top navbar-light" style="background-color: #2b2f33; border-bottom: 1px solid #f8f9fa;">
+  <div class="container-fluid">
+    <%= link_to "PrincessWife App", root_path, class: "navbar-brand text-white" %>
 
-      <!-- Toggler for Mobile View -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
       <!-- Navbar Content -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left-Aligned Links -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <% if current_user.admin? %>
-            <!-- Admin Management Link -->
-            <li class="nav-item">
-              <%= link_to "User Management", admin_users_path, class: "nav-link" %>
-            </li>
-          <% end %>
-        </ul>
+       
 
-        <!-- Right-Aligned Links -->
+              <!-- Right-Aligned Links -->
         <ul class="navbar-nav ms-auto">
           <!-- User Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fas fa-user me-1"></i> User
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user me-1 "></i> User
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
-                <%= link_to "Edit User", edit_user_registration_path, class: "dropdown-item" %>
+                <%= link_to "Edit User", edit_user_registration_path, class: "dropdown-item " %>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -41,7 +31,10 @@
             </ul>
           </li>
         </ul>
-      </div>
+
+
+
     </div>
-  </nav>
+  </div>
+</nav>
 <% end %>
