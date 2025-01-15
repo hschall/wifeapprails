@@ -3,16 +3,16 @@
 <div class="sidebar collapse" id="sidebar">
   <!-- Links Section -->
   <div>
-    <%= link_to root_path, class: "d-flex align-items-center text-white" do %>
+    <%= link_to root_path, class: "d-flex align-items-center" do %>
       <i class="bi bi-house-door me-2"></i> Home
     <% end %>
 
-    <%= link_to home_dashboard_path, class: "d-flex align-items-center text-white" do %>
+    <%= link_to home_dashboard_path, class: "d-flex align-items-center" do %>
       <i class="bi bi-speedometer2 me-2"></i> Dashboard
     <% end %>
 
     <% if current_user.admin? %>
-      <%= link_to admin_users_path, class: "d-flex align-items-center text-white" do %>
+      <%= link_to admin_users_path, class: "d-flex align-items-center" do %>
         <i class="bi bi-speedometer2 me-2"></i> User Management
       <% end %>
     <% end %>
@@ -24,7 +24,7 @@
   <!-- User Dropdown -->
   <div class="user-dropdown">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <a class="nav-link dropdown-toggle text" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fas fa-user me-1"></i> User
       </a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
