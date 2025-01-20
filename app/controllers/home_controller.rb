@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   def master
   end
 
+
   def dashboard
   @records = current_user.records if current_user
 
@@ -18,22 +19,23 @@ class HomeController < ApplicationController
     @monthly_expenses = []
   end
 
-  # Filter for Summary Cards (Month only)
+  # Filter for Summary Cards and Table
   if params[:month].present?
     selected_month = params[:month].to_i # Convert the month parameter to an integer
-
-    # PostgreSQL-compatible filtering by month
-    filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
+    filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month) if @records.present?
   else
     filtered_records = @records
   end
+
+  # Ensure filtered_records is not nil
+  filtered_records ||= []
 
   # Summary Card Data
   @filtered_total_amount = filtered_records.sum(:importe)
   @filtered_total_records = filtered_records.count
   @filtered_highest_expense = filtered_records.order(:importe).last
-end
 
-
-    
+  # Data for Table: Total Expenses by Concepto
+  @expenses_by_concept = filtered_records.group(:concepto).sum(:importe) || {}
+  end  
 end
