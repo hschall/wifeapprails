@@ -28,6 +28,10 @@ gem "bootsnap", require: false
 
 gem 'devise', '~> 4.9', '>= 4.9.4'
 
+gem 'groupdate'
+
+
+
 group :development, :test do
 
   gem "debug", platforms: %i[ mri windows ]

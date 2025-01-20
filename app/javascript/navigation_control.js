@@ -45,3 +45,4 @@ document.addEventListener('DOMContentLoaded', function () {
     sidebar.classList.remove('show'); // Ensure hidden on mobile
   }
 });
+
