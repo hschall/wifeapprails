@@ -18,12 +18,12 @@ class HomeController < ApplicationController
     @monthly_expenses = []
   end
 
-  # Filter for Summary Cards and Table (Month only)
+  # Filter for Summary Cards (Month only)
   if params[:month].present?
-    selected_month = params[:month].to_i # Convert the month parameter to an integer (e.g., "1" for January)
+    selected_month = params[:month].to_i # Convert the month parameter to an integer
 
-    # Filter records by month (ignores year) using SQLite-compatible syntax
-    filtered_records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month)
+    # PostgreSQL-compatible filtering by month
+    filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
   else
     filtered_records = @records
   end
@@ -32,10 +32,8 @@ class HomeController < ApplicationController
   @filtered_total_amount = filtered_records.sum(:importe)
   @filtered_total_records = filtered_records.count
   @filtered_highest_expense = filtered_records.order(:importe).last
-
-  # Data for Table: Total Expenses by Concepto
-  @expenses_by_concept = filtered_records.group(:concepto).sum(:importe)
 end
+
 
     
 end
