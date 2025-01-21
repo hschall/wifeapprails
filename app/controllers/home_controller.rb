@@ -21,10 +21,10 @@ class HomeController < ApplicationController
     case ActiveRecord::Base.connection.adapter_name
     when "SQLite"
       grouped_data = @records.group("strftime('%m', fecha)").sum(:importe)
-      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] } # Convert month numbers to names
+      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] }
     when "PostgreSQL"
       grouped_data = @records.group("EXTRACT(MONTH FROM fecha)").sum(:importe)
-      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] } # Convert month numbers to names
+      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] }
     else
       grouped_data = {}
       @monthly_labels = []
@@ -37,7 +37,7 @@ class HomeController < ApplicationController
 
   # Filter for Summary Cards and Table
   if params[:month].present?
-    selected_month = params[:month].to_i # Convert the month parameter to an integer
+    selected_month = params[:month].to_i
     if selected_month.between?(1, 12)
       case ActiveRecord::Base.connection.adapter_name
       when "SQLite"
@@ -59,8 +59,12 @@ class HomeController < ApplicationController
   @filtered_highest_expense = @records.order(:importe).last
 
   # Data for Table: Total Expenses by Concepto
-  @expenses_by_concept = @records.group(:concepto).sum(:importe) || {}
+  @expenses_by_concept = @records
+    .select("concepto, COUNT(*) as record_count, SUM(importe) as total_expense, AVG(importe) as avg_ticket")
+    .group(:concepto)
+    .order("total_expense DESC") # Order by total expense
 end
+
 
 
 end
