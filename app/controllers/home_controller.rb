@@ -9,6 +9,13 @@ class HomeController < ApplicationController
   def dashboard
   @records = current_user.records if current_user
 
+  # Admin filtering by user
+  if current_user&.admin? && params[:user_id].present?
+    @records = Record.where(user_id: params[:user_id])
+  elsif current_user
+    @records = current_user.records
+  end
+
   # Data for Trends Chart
   if @records.present?
     case ActiveRecord::Base.connection.adapter_name
@@ -34,30 +41,26 @@ class HomeController < ApplicationController
     if selected_month.between?(1, 12)
       case ActiveRecord::Base.connection.adapter_name
       when "SQLite"
-        filtered_records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month) if @records.present?
+        @records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month) if @records.present?
       when "PostgreSQL"
-        filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month) if @records.present?
-      else
-        filtered_records = @records
+        @records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month) if @records.present?
       end
     else
       flash[:alert] = "Invalid month selected."
-      filtered_records = @records
     end
-  else
-    filtered_records = @records
   end
 
-  # Ensure filtered_records is not nil
-  filtered_records ||= []
+  # Ensure @records is not nil
+  @records ||= []
 
   # Summary Card Data
-  @filtered_total_amount = filtered_records.sum(:importe)
-  @filtered_total_records = filtered_records.count
-  @filtered_highest_expense = filtered_records.order(:importe).last
+  @filtered_total_amount = @records.sum(:importe)
+  @filtered_total_records = @records.count
+  @filtered_highest_expense = @records.order(:importe).last
 
   # Data for Table: Total Expenses by Concepto
-  @expenses_by_concept = filtered_records.group(:concepto).sum(:importe) || {}
+  @expenses_by_concept = @records.group(:concepto).sum(:importe) || {}
 end
+
 
 end
