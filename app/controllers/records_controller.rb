@@ -8,7 +8,6 @@ class RecordsController < ApplicationController
 def index
   if current_user
     if params[:master]
-      # Restrict "All Users' Records" to admins only
       if current_user.admin?
         @records = Record.all
       else
@@ -16,35 +15,28 @@ def index
         return
       end
     else
-      # Individual view for the logged-in user
-      @records = Record.where(user: current_user)
+      @records = current_user.records
     end
 
-    # Apply the "Filter by User" if `:user_id` is present and in admin view
+    # Apply user filter
     if params[:master] && params[:user_id].present?
       @records = @records.where(user_id: params[:user_id])
     end
 
-    # Handle "All Records" and month-specific filtering
+    # Apply month filter
     if params[:month].present?
       if params[:month] == "all"
-        # Skip month filtering entirely for "All Records"
-        flash[:notice] = "Displaying all records"
+        # Skip month filtering
       else
         selected_month = params[:month].to_i
-        if selected_month.between?(1, 12)
-          case ActiveRecord::Base.connection.adapter_name
-          when "SQLite"
-            @records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month)
-          when "PostgreSQL"
-            @records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
-          end
-        else
-          flash[:alert] = "Invalid month selected."
+        case ActiveRecord::Base.connection.adapter_name
+        when "SQLite"
+          @records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month)
+        when "PostgreSQL"
+          @records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
         end
       end
     else
-      # Default to the current month if no month is provided
       params[:month] = Date.today.month.to_s
       selected_month = params[:month].to_i
       case ActiveRecord::Base.connection.adapter_name
@@ -55,15 +47,17 @@ def index
       end
     end
 
-    # Ensure @records is never nil
-    @records ||= Record.none
-
-    # Calculate the total amount
+    # Calculate total amount
     @total_amount = @records.sum(:importe)
+
+    # Apply pagination
+    @records = @records.paginate(page: params[:page], per_page: 30)
   else
     redirect_to new_user_session_path, alert: "You must be logged in to view records."
   end
 end
+
+
 
 
 

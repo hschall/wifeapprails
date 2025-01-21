@@ -30,6 +30,11 @@ gem 'devise', '~> 4.9', '>= 4.9.4'
 
 gem 'groupdate'
 
+gem 'will_paginate', '~> 3.3.0'
+
+gem 'bootstrap-will_paginate', '~> 1.0.0'
+
+
 
 
 group :development, :test do
