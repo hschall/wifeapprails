@@ -11,8 +11,17 @@ class HomeController < ApplicationController
 
   # Data for Trends Chart
   if @records.present?
-    grouped_data = @records.group_by_month(:fecha, format: "%B").sum(:importe)
-    @monthly_labels = grouped_data.keys
+    case ActiveRecord::Base.connection.adapter_name
+    when "SQLite"
+      grouped_data = @records.group("strftime('%m', fecha)").sum(:importe)
+      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] } # Convert month numbers to names
+    when "PostgreSQL"
+      grouped_data = @records.group("EXTRACT(MONTH FROM fecha)").sum(:importe)
+      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] } # Convert month numbers to names
+    else
+      grouped_data = {}
+      @monthly_labels = []
+    end
     @monthly_expenses = grouped_data.values
   else
     @monthly_labels = []
@@ -22,7 +31,19 @@ class HomeController < ApplicationController
   # Filter for Summary Cards and Table
   if params[:month].present?
     selected_month = params[:month].to_i # Convert the month parameter to an integer
-    filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month) if @records.present?
+    if selected_month.between?(1, 12)
+      case ActiveRecord::Base.connection.adapter_name
+      when "SQLite"
+        filtered_records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month) if @records.present?
+      when "PostgreSQL"
+        filtered_records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month) if @records.present?
+      else
+        filtered_records = @records
+      end
+    else
+      flash[:alert] = "Invalid month selected."
+      filtered_records = @records
+    end
   else
     filtered_records = @records
   end
@@ -37,5 +58,6 @@ class HomeController < ApplicationController
 
   # Data for Table: Total Expenses by Concepto
   @expenses_by_concept = filtered_records.group(:concepto).sum(:importe) || {}
-  end  
+end
+
 end

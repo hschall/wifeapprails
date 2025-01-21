@@ -5,34 +5,72 @@ class RecordsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
 
   # GET /records or /records.json
-  def index
-    if current_user
-      if params[:master]
-        # Restrict "All Users' Records" to admins only
-        if current_user.admin?
-          @records = Record.all
-        else
-          redirect_to records_path, alert: "You are not authorized to view all users' records."
-          return
-        end
+def index
+  if current_user
+    if params[:master]
+      # Restrict "All Users' Records" to admins only
+      if current_user.admin?
+        @records = Record.all
       else
-        # Individual view for the logged-in user
-        @records = Record.where(user: current_user)
+        redirect_to records_path, alert: "You are not authorized to view all users' records."
+        return
       end
-
-      # Apply the filter if a month is selected
-      if params[:month].present?
-        selected_date = Date.parse(params[:month] + "-01") rescue Date.today
-        @records = @records.where(fecha: selected_date.beginning_of_month..selected_date.end_of_month)
-      end
-
-      # Calculate the total amount
-      @total_amount = @records.sum(:importe)
     else
-      redirect_to new_user_session_path, alert: "You must be logged in to view records."
+      # Individual view for the logged-in user
+      @records = Record.where(user: current_user)
     end
-  
+
+    # Apply the "Filter by User" if `:user_id` is present and in admin view
+    if params[:master] && params[:user_id].present?
+      @records = @records.where(user_id: params[:user_id])
+    end
+
+    # Handle "All Records" and month-specific filtering
+    if params[:month].present?
+      if params[:month] == "all"
+        # Skip month filtering entirely for "All Records"
+        flash[:notice] = "Displaying all records"
+      else
+        selected_month = params[:month].to_i
+        if selected_month.between?(1, 12)
+          case ActiveRecord::Base.connection.adapter_name
+          when "SQLite"
+            @records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month)
+          when "PostgreSQL"
+            @records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
+          end
+        else
+          flash[:alert] = "Invalid month selected."
+        end
+      end
+    else
+      # Default to the current month if no month is provided
+      params[:month] = Date.today.month.to_s
+      selected_month = params[:month].to_i
+      case ActiveRecord::Base.connection.adapter_name
+      when "SQLite"
+        @records = @records.where("CAST(strftime('%m', fecha) AS INTEGER) = ?", selected_month)
+      when "PostgreSQL"
+        @records = @records.where("EXTRACT(MONTH FROM fecha) = ?", selected_month)
+      end
+    end
+
+    # Ensure @records is never nil
+    @records ||= Record.none
+
+    # Calculate the total amount
+    @total_amount = @records.sum(:importe)
+  else
+    redirect_to new_user_session_path, alert: "You must be logged in to view records."
+  end
 end
+
+
+
+
+
+
+
 
 
 

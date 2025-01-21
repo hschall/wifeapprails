@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
   const sidebar = document.getElementById('sidebar');
   const toggleButton = document.querySelector('.sidebar-toggle');
@@ -44,5 +43,16 @@ document.addEventListener('DOMContentLoaded', function () {
     sidebar.classList.add('hide-mobile'); // Add mobile-only hidden state
     sidebar.classList.remove('show'); // Ensure hidden on mobile
   }
-});
 
+  // Dynamic form submission for filters
+  const filterElements = document.querySelectorAll('.filter-trigger'); // Filter dropdowns
+  const filterForm = document.getElementById('filterForm'); // Filter form
+
+  if (filterElements && filterForm) {
+    filterElements.forEach(element => {
+      element.addEventListener('change', function () {
+        filterForm.submit(); // Submit the form when a filter value changes
+      });
+    });
+  }
+});

@@ -1,3 +1,5 @@
+<div class="text-center"><h1>Records Table</h1></div>
+
 <!-- Toggle Between Views -->
 <% if current_user.admin? && params[:master] %>
   <div class="row mb-3">
@@ -20,11 +22,34 @@
   <div class="row justify-content-center">
     <div class="col-sm-12 col-md-8 col-lg-6">
       <div class="bg-light p-4 rounded shadow text-center">
-        <%= render "records/filter" %>
+        <%= form_with url: records_path, method: :get, local: true, id: "filterForm" do %>
+          <% if params[:master] %>
+            <%= hidden_field_tag :master, true %> <!-- Preserve the "master" parameter -->
+
+            <div class="row mb-3">
+              <div class="col-12">
+                <%= select_tag :user_id, 
+                  options_from_collection_for_select(User.all, :id, :email, params[:user_id]), 
+                  class: "form-control filter-trigger", prompt: "Select User" %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="row g-2">
+            <div class="col-12">
+              <%= select_tag :month, 
+  options_for_select([["All Records", "all"]] + Date::MONTHNAMES.compact.each_with_index.map { |m, i| [m, i + 1] }, params[:month]), 
+  class: "form-control filter-trigger" %>
+
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <!-- Total Amount Section -->
 <div class="container mt-3">
@@ -32,19 +57,25 @@
     <div class="col-sm-12 col-md-8 col-lg-6">
       <div class="alert alert-info shadow text-center">
         <h5 class="mb-3">
-          <strong>
-            <% if params[:master] %>
-              Total Amount for All Users:
-            <% else %>
-              Total Amount for Selected Month (Your Records Only):
-            <% end %>
-          </strong>
+          <strong>Total Amount</strong>
         </h5>
         <h4 class="fw-bold"><%= number_to_currency(@total_amount) %></h4>
+        <small class="text-muted">
+          <% if params[:month].present? && params[:month] != "all" %>
+            For Selected Month
+          <% elsif params[:user_id].present? %>
+            For Selected User
+          <% else %>
+            Across All Selected Records
+          <% end %>
+        </small>
       </div>
     </div>
   </div>
 </div>
+
+
+
 
 <!-- Records Table -->
 <div class="container mt-5">
@@ -65,17 +96,25 @@
             </tr>
           </thead>
           <tbody>
-            <% @records.each do |record| %>
+            <% if @records.any? %>
+              <% @records.each do |record| %>
+                <tr>
+                  <td><%= record.fecha %></td>
+                  <td><%= record.concepto %></td>
+                  <td><%= record.importe %></td>
+                  <td><%= record.comentario %></td>
+                  <% if params[:master] %>
+                    <td><%= record.user&.email || "No User" %></td>
+                  <% end %>
+                  <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
+                  <td><%= button_to "Destroy", record, method: :delete, class: "btn btn-outline-danger btn-sm", onclick: "return confirm('Are you sure?');" %></td>
+                </tr>
+              <% end %>
+            <% else %>
               <tr>
-                <td><%= record.fecha %></td>
-                <td><%= record.concepto %></td>
-                <td><%= record.importe %></td>
-                <td><%= record.comentario %></td>
-                <% if params[:master] %>
-                  <td><%= record.user&.email || "No User" %></td>
-                <% end %>
-                <td><%= link_to "Edit", edit_record_path(record), class: "btn btn-outline-warning btn-sm" %></td>
-                <td><%= button_to "Destroy", record, method: :delete, class: "btn btn-outline-danger btn-sm", onclick: "return confirm('Are you sure?');" %></td>
+                <td colspan="<%= params[:master] ? 6 : 5 %>" class="text-muted">
+                  No records found for the selected filters.
+                </td>
               </tr>
             <% end %>
           </tbody>
@@ -84,6 +123,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!-- Add New Record Button -->
