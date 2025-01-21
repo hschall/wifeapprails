@@ -18,21 +18,24 @@ class HomeController < ApplicationController
 
   # Data for Trends Chart
   if @records.present?
-    case ActiveRecord::Base.connection.adapter_name
-    when "SQLite"
-      grouped_data = @records.group("strftime('%m', fecha)").sum(:importe)
-      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] }
-    when "PostgreSQL"
-      grouped_data = @records.group("EXTRACT(MONTH FROM fecha)").sum(:importe)
-      @monthly_labels = grouped_data.keys.map { |m| Date::MONTHNAMES[m.to_i] }
-    else
-      grouped_data = {}
-      @monthly_labels = []
+    grouped_data = case ActiveRecord::Base.connection.adapter_name
+                   when "SQLite"
+                     @records.group("CAST(strftime('%m', fecha) AS INTEGER)").sum(:importe) # Ensure keys are integers
+                   when "PostgreSQL"
+                     @records.group("EXTRACT(MONTH FROM fecha)").sum(:importe)
+                   else
+                     {}
+                   end
+
+    # Create all 12 months with default 0 for missing months
+    all_months = (1..12).map { |m| Date::MONTHNAMES[m] } # ["January", "February", ..., "December"]
+    @monthly_labels = all_months
+    @monthly_expenses = (1..12).map do |month|
+      grouped_data[month.to_s.to_i] || grouped_data[month] || 0 # Handle keys as both integers and strings
     end
-    @monthly_expenses = grouped_data.values
   else
-    @monthly_labels = []
-    @monthly_expenses = []
+    @monthly_labels = Date::MONTHNAMES[1..12] # ["January", "February", ..., "December"]
+    @monthly_expenses = Array.new(12, 0) # Default to 0 for all months
   end
 
   # Filter for Summary Cards and Table
@@ -64,6 +67,7 @@ class HomeController < ApplicationController
     .group(:concepto)
     .order("total_expense DESC") # Order by total expense
 end
+
 
 
 

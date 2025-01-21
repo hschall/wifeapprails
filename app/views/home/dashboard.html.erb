@@ -127,10 +127,10 @@
   const expenseChart = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: <%= raw @monthly_labels.to_json %>, // Properly formatted labels
+          labels: <%= raw @monthly_labels.to_json %>, // All 12 months
           datasets: [{
               label: 'Monthly Expenses',
-              data: <%= raw @monthly_expenses.to_json %>, // Properly formatted data
+              data: <%= raw @monthly_expenses.to_json %>, // Expenses for each month
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1
